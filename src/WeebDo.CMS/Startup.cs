@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Http;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.Configuration;
-using Microsoft.Data.Entity;
-using WeebDoCMS.Area.WeebDo.Model;
-using Microsoft.Dnx.Runtime.Infrastructure;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Hosting;
-using Microsoft.Framework.Logging;
 using Microsoft.AspNet.Diagnostics.Entity;
+using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Data.Entity;
+using Microsoft.Dnx.Runtime;
+using Microsoft.Dnx.Runtime.Infrastructure;
+using Microsoft.Framework.Configuration;
+using Microsoft.Framework.DependencyInjection;
+using Microsoft.Framework.Logging;
+using System;
+using WeebDoCMS.Area.WeebDo.Model;
 
 namespace WeebDoCMS
 {
@@ -17,17 +17,20 @@ namespace WeebDoCMS
     {
         public IConfigurationRoot Configuration { get; set; }
 
-        public Startup(IApplicationEnvironment env)
+        public Startup()
         {
-            Configuration = new ConfigurationBuilder(env.ApplicationBasePath)
+            Configuration = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
                 .AddJsonFile("config.json")
-                .AddJsonFile("config.dev.json", true)
                 .Build();
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddCaching();
+            services.AddSession();
+
+
             /// Database setting
             /// at this moment have 3 variant 
             /// Postgres
@@ -63,7 +66,7 @@ namespace WeebDoCMS
                         .AddSqlServer()
                         .AddDbContext<MainDbContext>(options =>
                             options.UseSqlServer(Configuration["dbSqlServer:ConnectionString"]));
-                    break;
+                    break;                    
             }
 
             // Add Identity services to the services container.
@@ -73,6 +76,9 @@ namespace WeebDoCMS
 
             // Add MVC services to the services container.
             services.AddMvc();
+            //After MVC add services 
+            // Example: services.AddTransient<ITestService, TestService>();
+            return services.BuildServiceProvider();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -83,8 +89,8 @@ namespace WeebDoCMS
 
             if (Configuration["env"] == "dev")
             {
+                app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
-                app.UseErrorPage();
                 app.UseDatabaseErrorPage(DatabaseErrorPageOptions.ShowAll);
             }
             else
@@ -92,11 +98,13 @@ namespace WeebDoCMS
                 // Add Error handling middleware which catches all application specific errors and
                 // sends the request to the following path or controller action.
                 //TODO: create default controller for error page
-                app.UseErrorHandler("/Home/Error");
+                app.UseStatusCodePagesWithRedirects("/Home/Error");
             }
 
             // Add static files to the request pipeline.
             app.UseStaticFiles();
+            app.UseRequestLocalization();
+            app.UseSession();
 
             // Add cookie-based authentication to the request pipeline.
             app.UseIdentity();
