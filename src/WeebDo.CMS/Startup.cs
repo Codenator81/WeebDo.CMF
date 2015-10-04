@@ -17,12 +17,13 @@ namespace WeebDoCMS
     {
         public IConfigurationRoot Configuration { get; set; }
 
-        public Startup()
+        public Startup(IApplicationEnvironment env)
         {
-            Configuration = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ApplicationBasePath)
                 .AddJsonFile("config.json")
-                .Build();
+                .AddEnvironmentVariables();
+                Configuration = builder.Build();
         }
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
