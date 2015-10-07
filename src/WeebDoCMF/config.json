@@ -1,7 +1,7 @@
 ﻿{
   "Data": {
-    "_docs": "DbName currently have three parameters Postgres, Sqlite or  SqlServer (if DbName empty default connection)",
-    "DbName": "Postgres",
+    //DbName currently have three parameters Postgres, Sqlite or  SqlServer (if DbName empty default connection)
+    "DbName": "Sqlite",
     "dbPostgres": {
       "Host": "localhost",
       "Username": "postgres",

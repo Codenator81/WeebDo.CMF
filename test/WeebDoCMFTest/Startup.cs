@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Dnx.Runtime;
 
-namespace WeebDoCMSTest
+namespace WeebDoCMFTest
 {
-    public class Startup : WeebDoCMS.Startup
+    public class Startup : WeebDoCMF.Startup
     {
         public Startup(IApplicationEnvironment env) : base(env)
         {

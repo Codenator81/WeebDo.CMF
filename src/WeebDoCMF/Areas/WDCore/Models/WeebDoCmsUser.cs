@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace WeebDoCMS.Area.WeebDo.Model
+namespace WeebDoCMF.Core.Models
 {
     public class WeebDoCmsUser : IdentityUser
     {
