@@ -15,5 +15,8 @@
       "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=WeebDoCMS-a1c21b0a-21de-4435-9306-6d1b835567cd;Trusted_Connection=True;MultipleActiveResultSets=true"
     }
   },
-  "env":  "dev"
+  "env": "dev",
+  "AppSettings": {
+        "SiteName": "WeebDo CMF"
+    }
 }

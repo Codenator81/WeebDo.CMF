@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using WeebDoCMF.Core.Models;
+using WeebDoCMF.Settings;
 
 namespace WeebDoCMF
 {
@@ -19,7 +20,7 @@ namespace WeebDoCMF
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ApplicationBasePath)
-                .AddJsonFile("config.json")
+                .AddJsonFile("Settings/config.json")
                 .AddEnvironmentVariables();
                 Configuration = builder.Build();
         }
@@ -27,6 +28,11 @@ namespace WeebDoCMF
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.Configure<AppSettings>(settings =>
+            //{
+            //    settings.SiteName = Configuration["AppSettings:SiteName"];
+            //});
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             // Add MVC services to the services container.
             services.AddMvc();
 
@@ -77,7 +83,7 @@ namespace WeebDoCMF
                 .AddDefaultTokenProviders();
 
             //add services 
-            // Example: services.AddTransient<ITestService, TestService>();            
+            // Example: services.AddTransient<ITestService, TestService>();      
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -87,8 +93,8 @@ namespace WeebDoCMF
             loggerFactory.AddDebug();
 
             if (Configuration["env"] == "dev")
-            {
-                
+            {                
+                app.UseDeveloperExceptionPage();
             }
             else
             {
