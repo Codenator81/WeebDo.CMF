@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNet.Mvc.Razor.Precompilation;
+using Microsoft.Dnx.Runtime;
 
 namespace WeebDoCMF
 {
