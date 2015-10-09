@@ -9,16 +9,16 @@ namespace WeebDoCMF.Areas.WDAdmin.Controllers
     [Area("WDAdmin")]
     public class AdminController : Controller
     {
-        private IOptions<AppSettings> _appSettings;
+        private AppSettings _appSettings;
 
         public AdminController(IOptions<AppSettings> appSettings)
         {
-            _appSettings = appSettings;
+            _appSettings = appSettings.Value;
         }
         // GET: /<controller>/
         public IActionResult Index()
         {
-            string appName = _appSettings.Value.SiteName;
+            string appName = _appSettings.SiteName;
             ViewBag.siteName = appName;
             return View();
         }
