@@ -2,6 +2,9 @@
 	"name": "WeebDoCMF",
 	"private": true,
   "dependencies": {
-    "admin-lte": "^2.3.0"
+    "admin-lte": "^2.3.0",
+    "jquery": "^2.1.4",
+    "jquery-validation": "^1.14.0",
+    "jquery-validation-unobtrusive": "^3.2.3"
   }
 }
