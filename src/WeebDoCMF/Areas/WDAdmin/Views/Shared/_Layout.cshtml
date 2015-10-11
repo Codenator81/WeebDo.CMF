@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject IOptions<AppSettings> AppSettings
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -29,9 +30,9 @@
             <!-- Logo -->
             <a href="index2.html" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>A</b>LT</span>
+                <span class="logo-mini">@Html.Raw(AppSettings.Value.SiteLogoNameShort)</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>Admin</b>LTE</span>
+                <span class="logo-lg">@Html.Raw(AppSettings.Value.SiteLogoName)</span>
             </a>
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">

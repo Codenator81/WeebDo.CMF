@@ -5,10 +5,9 @@ using Microsoft.Extensions.OptionsModel;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using WeebDoCMF.Core.Models;
-using WeebDoCMF.Settings;
+using WeebDoCMF.WDCore.Models;
 
-namespace WeebDoCMF.Areas.WDCore.Models
+namespace WeebDoCMF.WDCore.Models
 {
     public class SampleData
     {
@@ -29,7 +28,7 @@ namespace WeebDoCMF.Areas.WDCore.Models
             var settings = serviceProvider.GetService<IOptions<AppSettings>>().Value;
             const string adminRole = "Administrator";
 
-            var userManager = serviceProvider.GetService<UserManager<WeebDoCmsUser>>();
+            var userManager = serviceProvider.GetService<UserManager<WeebDoCmfUser>>();
             var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
 
             if (!await roleManager.RoleExistsAsync(adminRole))
@@ -40,7 +39,7 @@ namespace WeebDoCMF.Areas.WDCore.Models
             var user = await userManager.FindByNameAsync(settings.adminName);
             if (user == null)
             {
-                user = new WeebDoCmsUser { UserName = settings.adminName };
+                user = new WeebDoCmfUser { UserName = settings.adminName };
                 await userManager.CreateAsync(user, settings.adminPassword);
                 await userManager.AddToRoleAsync(user, adminRole);
                 await userManager.AddClaimAsync(user, new Claim("ManageAdminPanel", "Allowed"));

@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.OptionsModel;
-using WeebDoCMF.Settings;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace WeebDoCMF.Areas.WDAdmin.Controllers
+namespace WeebDoCMF.WDAdmin.Controllers
 {
     [Area("WDAdmin")]
+    [Authorize("ManageAdminPanel")]
     public class AdminController : Controller
     {
         private AppSettings _appSettings;
@@ -18,8 +19,7 @@ namespace WeebDoCMF.Areas.WDAdmin.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            string appName = _appSettings.SiteName;
-            ViewBag.siteName = appName;
+            ViewBag.SiteLogoName = _appSettings.SiteLogoName;
             return View();
         }
     }

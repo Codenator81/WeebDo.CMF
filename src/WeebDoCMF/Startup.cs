@@ -7,9 +7,7 @@ using Microsoft.Dnx.Runtime.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using WeebDoCMF.Areas.WDCore.Models;
-using WeebDoCMF.Core.Models;
-using WeebDoCMF.Settings;
+using WeebDoCMF.WDCore.Models;
 
 namespace WeebDoCMF
 {
@@ -71,12 +69,14 @@ namespace WeebDoCMF
             }
 
             // Add Identity services to the services container.
-            services.AddIdentity<WeebDoCmsUser, IdentityRole>(options =>
+            services.AddIdentity<WeebDoCmfUser, IdentityRole>(options =>
             {
+                options.Cookies.ApplicationCookie.LoginPath = "/wdadmin/Account/Login";
                 options.Cookies.ApplicationCookie.AccessDeniedPath = "/Home/AccessDenied";
             })
                 .AddEntityFrameworkStores<MainDbContext>()
                 .AddDefaultTokenProviders();
+
 
             services.AddCors(options =>
             {
@@ -116,7 +116,8 @@ namespace WeebDoCMF
             loggerFactory.AddConsole(minLevel: LogLevel.Warning);
 
             // StatusCode pages to gracefully handle status codes 400-599.
-            app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
+            //app.UseStatusCodePagesWithRedirects("/Home/StatusCodePage");
+            app.UseStatusCodePages();
 
             // Display custom error page in production when error occurs
             // During development use the ErrorPage middleware to display error information in the browser
@@ -139,7 +140,7 @@ namespace WeebDoCMF
             loggerFactory.AddConsole(minLevel: LogLevel.Warning);
 
             // StatusCode pages to gracefully handle status codes 400-599.
-            app.UseStatusCodePagesWithRedirects("~/Home/StatusCodePage");
+            //app.UseStatusCodePagesWithRedirects("/Home/StatusCodePage");
 
             app.UseExceptionHandler("/Home/Error");
 
