@@ -155,9 +155,6 @@ namespace WeebDoCMF
 
         public void Configure(IApplicationBuilder app)
         {
-            // Initialize the sample data
-            SampleData.InitializeWeebDoCMFDatabaseAsync(app.ApplicationServices).Wait();
-
             // Configure Session.
             app.UseSession();
 
@@ -173,13 +170,16 @@ namespace WeebDoCMF
             {
                 routes.MapRoute(
                     name: "areaRoute",
-                    template: "{area:exists}/{controller}/{action}",
+                    template: "{area:exists}/{controller}/{action}/{id?}",
                     defaults: new { controller= "Admin", action = "Index" });
 
             routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // Initialize the sample data
+            SampleData.InitializeWeebDoCMFDatabaseAsync(app.ApplicationServices).Wait();
         }
     }
 }
