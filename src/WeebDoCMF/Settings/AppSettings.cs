@@ -7,5 +7,6 @@
         public string SiteLogoNameShort { get; set; }
         public string adminName { get; set; }
         public string adminPassword { get; set; }
+        public string adminRole { get; set; }
     }
 }

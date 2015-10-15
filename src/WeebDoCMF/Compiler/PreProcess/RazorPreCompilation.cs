@@ -13,4 +13,8 @@ namespace WeebDoCMF
                                             StringComparison.OrdinalIgnoreCase);
         }
     }
+
+    public class TagHelpersRazorPreCompilation : RazorPreCompileModule
+    {
+    }
 }

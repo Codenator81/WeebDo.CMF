@@ -17,6 +17,7 @@
   },
   "env": "dev",
   "AppSettings": {
+    "adminRole":  "Administrator",
     "adminName": "Administrator",
     "adminPassword": "PasswOrd34!",
     "SiteLogoName": "<b>WeebDo</b> CMF",

@@ -158,19 +158,18 @@ namespace WeebDoCMF
             // Configure Session.
             app.UseSession();
 
+            // Add cookie auth
+            app.UseIdentity();
+
             // Configure Session.
             app.UseProtectFolder(new ProtectFolderOptions
             {
                 Path = "/Protected",
-                PolicyName = "ManageAdminPanel"
+                RoleName = Configuration["AppSettings:adminRole"]
             });
 
             // Add static files
             app.UseStaticFiles();
-
-            // Add cookie auth
-            app.UseIdentity();
-
 
             // Add MVC
             app.UseMvc(routes =>

@@ -26,7 +26,7 @@ namespace WeebDoCMF.WDCore.Models
         private static async Task CreateAdminUser(IServiceProvider serviceProvider)
         {
             var settings = serviceProvider.GetService<IOptions<AppSettings>>().Value;
-            const string adminRole = "Administrator";
+            var adminRole = settings.adminRole;
 
             var userManager = serviceProvider.GetService<UserManager<WeebDoCmfUser>>();
             var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();

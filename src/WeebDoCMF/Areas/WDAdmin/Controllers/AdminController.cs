@@ -25,16 +25,6 @@ namespace WeebDoCMF.WDAdmin.Controllers
         {
             ViewBag.SiteLogoName = _appSettings.SiteLogoName;
             return View();
-        }
-
-        [HttpGet("admin/image/{type}/{id}")]
-        public FileResult image(string type, string id)
-        {
-            var appEnv = CallContextServiceLocator.Locator.ServiceProvider
-                            .GetRequiredService<IApplicationEnvironment>();
-            byte[] fileBytes = System.IO.File.ReadAllBytes(@appEnv.ApplicationBasePath + "\\Uploads\\admin\\images\\" + id + "." + type);
-            string contentType = "image/" + type;
-            return File(fileBytes, contentType);
-        }
+        }       
     }
 }
