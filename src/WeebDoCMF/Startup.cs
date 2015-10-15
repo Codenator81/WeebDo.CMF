@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using WeebDoCMF.WDCore.Middleware;
 using WeebDoCMF.WDCore.Models;
 
 namespace WeebDoCMF
@@ -73,7 +74,6 @@ namespace WeebDoCMF
             services.AddIdentity<WeebDoCmfUser, IdentityRole>(options =>
             {
                 options.Cookies.ApplicationCookie.LoginPath = "/wdadmin/Account/Login";
-                options.Cookies.ApplicationCookie.AccessDeniedPath = "/Home/AccessDenied";
             })
                 .AddEntityFrameworkStores<MainDbContext>()
                 .AddDefaultTokenProviders();
@@ -157,6 +157,13 @@ namespace WeebDoCMF
         {
             // Configure Session.
             app.UseSession();
+
+            // Configure Session.
+            app.UseProtectFolder(new ProtectFolderOptions
+            {
+                Path = "/Protected",
+                PolicyName = "ManageAdminPanel"
+            });
 
             // Add static files
             app.UseStaticFiles();

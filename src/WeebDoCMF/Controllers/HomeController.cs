@@ -25,10 +25,5 @@ namespace WeebDoCMF.Controllers
         {
             return View("~/Views/Shared/StatusCodePage.cshtml");
         }
-
-        public IActionResult AccessDenied()
-        {
-            return View("~/Views/Shared/AccessDenied.cshtml");
-        }
     }
 }

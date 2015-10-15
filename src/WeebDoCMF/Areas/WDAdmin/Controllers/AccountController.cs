@@ -62,6 +62,14 @@ namespace WeebDoCMF.WDAdmin.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogOff()
+        {
+            await SignInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
+
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
