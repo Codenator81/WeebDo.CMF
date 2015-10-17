@@ -1,15 +1,21 @@
 ﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Localization;
 using Microsoft.Data.Entity;
 using Microsoft.Dnx.Runtime;
 using Microsoft.Dnx.Runtime.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using System.Collections.Generic;
+using System.Globalization;
 using WeebDoCMF.WDCore.Middleware;
 using WeebDoCMF.WDCore.Models;
+using WeebDoCMF.WDCore.Models.Translations;
+using WeebDoCMF.WDCore.Translation;
 
 namespace WeebDoCMF
 {
@@ -44,13 +50,10 @@ namespace WeebDoCMF
                     var database = Configuration["Data:dbPostgres:Database"];
                     var connectPostgres = host + username + password + database;
                    
-#if DNX451
-                    //TODO: remofe #if DNX451 when postgres EntityFramework support Core 5
                     services.AddEntityFramework()
                        .AddNpgsql()
                        .AddDbContext<MainDbContext>(options =>
                            options.UseNpgsql(connectPostgres));
-#endif
                     break;
 */
                 case "Sqlite":
@@ -86,14 +89,14 @@ namespace WeebDoCMF
                     builder.WithOrigins("http://example.com");
                 });
             });
-
+            services.AddLocalization();
             // Add MVC services to the services container.
             services.AddMvc()
+                .AddViewLocalization()
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
-
             // Add memory cache services
             services.AddCaching();
 
@@ -102,6 +105,8 @@ namespace WeebDoCMF
 
             //add services 
             // Example: services.AddTransient<ITestService, TestService>();   
+            services.AddScoped<ITRepository, TRepository>();
+            services.AddTransient<IStringLocalizerFactory, WDStringLocalizerFactory>();
 
             // Configure Auth
             services.AddAuthorization(options =>
@@ -161,6 +166,22 @@ namespace WeebDoCMF
             // Add cookie auth
             app.UseIdentity();
 
+            var options = new RequestLocalizationOptions
+            {
+                SupportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("ru-RU")
+                },
+                SupportedUICultures = new List<CultureInfo>
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("ru-RU")
+                }
+                
+            };
+
+            app.UseRequestLocalization(options);
             // Configure Session.
             app.UseProtectFolder(new ProtectFolderOptions
             {
@@ -185,7 +206,8 @@ namespace WeebDoCMF
             });
 
             // Initialize the sample data
-            SampleData.InitializeWeebDoCMFDatabaseAsync(app.ApplicationServices).Wait();
+            //Uncomment on first run after do all migrations
+            //SampleData.InitializeWeebDoCMFDatabaseAsync(app.ApplicationServices).Wait();
         }
     }
 }

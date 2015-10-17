@@ -1,27 +1,51 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Data.Entity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.OptionsModel;
 using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using WeebDoCMF.WDCore.Models;
+using WeebDoCMF.WDCore.Models.Translations;
 
 namespace WeebDoCMF.WDCore.Models
 {
     public class SampleData
     {
         public static async Task InitializeWeebDoCMFDatabaseAsync(IServiceProvider serviceProvider)
+        {            
+            await CreateAdminUser(serviceProvider);
+            await InsertCultureData(serviceProvider);           
+        }
+        private static async Task InsertCultureData(IServiceProvider serviceProvider)
         {
-            using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            var context = serviceProvider.GetService<MainDbContext>();
+            if (!context.TCultures.Any())
             {
-                var db = serviceScope.ServiceProvider.GetService<MainDbContext>();
-                if (await db.Database.EnsureCreatedAsync())
-                {
-                    await CreateAdminUser(serviceProvider);
-                }
+                var englishCulture = context.TCultures.Add(
+                     new TCulture { CultureCode = "en-US" }).Entity;
+                var russianCulture = context.TCultures.Add(
+                    new TCulture { CultureCode = "ru-RU" }).Entity;
+
+                context.TResources.AddRange(
+                    new TResource()
+                    {
+                        Name = "language",
+                        Value = "Язык",
+                        Culture = russianCulture
+                    },
+                     new TResource()
+                     {
+                         Name = "language",
+                         Value = "Language",
+                         Culture = englishCulture
+                     }                     
+                );
+                await context.SaveChangesAsync();
             }
         }
+
 
         private static async Task CreateAdminUser(IServiceProvider serviceProvider)
         {

@@ -1,5 +1,27 @@
-﻿@{
+﻿@inject IViewLocalizer SR
+@{
     ViewBag.Title = "Home Page";
 }
 
 <h1>Home page</h1>
+
+<h2>Translation: @ViewBag.Trans</h2>
+<h2>Injected translation: @SR["language"]</h2>
+
+<div>
+    <h3 id="en_US" onclick='useCookie("en-US");'>on click set en-US</h3>
+    <h3 id="ru_RU" onclick='useCookie("ru-RU");'>on click set ru-RU</h3>
+</div>
+
+<script>
+    function useCookie(culture) {
+        {
+            var culture = culture;
+            var uiCulture = culture;
+            var cookieValue = 'ASPNET_CULTURE=c=' + culture + '|uic=' + uiCulture;
+            document.cookie = cookieValue;
+            window.location = window.location.href.split('?')[0];
+        }
+    }
+
+</script>

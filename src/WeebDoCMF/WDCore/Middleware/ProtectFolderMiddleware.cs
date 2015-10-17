@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Http;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace WeebDoCMF.WDCore.Middleware
@@ -11,14 +10,15 @@ namespace WeebDoCMF.WDCore.Middleware
         private readonly RequestDelegate _next;
         private readonly PathString _path;
         private readonly string _roleName;
-        private readonly ILogger _logger;
+        //private readonly ILogger _logger;
 
-        public ProtectFolderMiddleware(RequestDelegate next, ProtectFolderOptions options, ILoggerFactory loggerFactory)
+        public ProtectFolderMiddleware(RequestDelegate next, ProtectFolderOptions options/*, ILoggerFactory loggerFactory*/)
         {
             _next = next;
             _path = options.Path;
             _roleName = options.RoleName;
-            _logger = loggerFactory.CreateLogger(typeof(ProtectFolderMiddleware).FullName);
+            //keeep for reference fo now
+            //_logger = loggerFactory.CreateLogger(typeof(ProtectFolderMiddleware).FullName);
         }
 
         public async Task Invoke(HttpContext httpContext,
