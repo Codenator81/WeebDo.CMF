@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading.Tasks;
 using WeebDoCMF.WDCore.Middleware;
 using WeebDoCMF.WDCore.Models;
 using WeebDoCMF.WDCore.Models.Translations;
@@ -180,6 +181,12 @@ namespace WeebDoCMF
                 }
                 
             };
+            //options.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async context =>
+            //{
+            //    var culture = GetCultureInfoFromUrl(context);
+            //    var requestCulture = new RequestCulture(culture);
+            //    return await Task.FromResult(requestCulture);
+            //}));
 
             app.UseRequestLocalization(options);
             // Configure Session.

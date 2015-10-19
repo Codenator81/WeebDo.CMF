@@ -18,8 +18,5 @@ Current DNX: dnx-clr-win-x64.1.0.0-rc1-15910
 ###Open Sorce used:
 Admin panel based on [AdminLTE](https://github.com/almasaeed2010/AdminLTE)
 
-###Live site
-Site url: [codenator.dev-point.org](http://codenator.dev-point.org/)
-
 ####Contribute:
 For contribute just fork, write your own code, open issue, add pull request.
