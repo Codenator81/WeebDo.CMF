@@ -6,6 +6,16 @@
       "environmentVariables": {
         "ASPNET_ENV": "Development"
       }
+    },
+    "kestrel": {
+      "commandName": "kestrel",
+      "sdkVersion": "dnx-coreclr-win-x64.1.0.0-rc1-15910"
+    },
+    "web": {
+      "commandName": "web",
+      "environmentVariables": {
+        "ASPNET_ENV": "Development"
+      }
     }
   }
 }
