@@ -9,22 +9,24 @@ namespace WeebDoCMF.WDCore.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly PathString _path;
-        private readonly string _policyName;
+        private readonly string _roleName;
+        //private readonly ILogger _logger;
 
-        public ProtectFolderMiddleware(RequestDelegate next, ProtectFolderOptions options)
+        public ProtectFolderMiddleware(RequestDelegate next, ProtectFolderOptions options/*, ILoggerFactory loggerFactory*/)
         {
             _next = next;
             _path = options.Path;
-            _policyName = options.PolicyName;
+            _roleName = options.RoleName;
+            //keeep for reference fo now
+            //_logger = loggerFactory.CreateLogger(typeof(ProtectFolderMiddleware).FullName);
         }
 
         public async Task Invoke(HttpContext httpContext,
                                  IAuthorizationService authorizationService)
-        {
+        {            
             if (httpContext.Request.Path.StartsWithSegments(_path))
             {
-                var authorized = await authorizationService.AuthorizeAsync(
-                                    httpContext.User, null, _policyName);
+                var authorized = httpContext.User.IsInRole(_roleName);
                 if (!authorized)
                 {
                     await httpContext.Authentication.ChallengeAsync();
@@ -33,13 +35,13 @@ namespace WeebDoCMF.WDCore.Middleware
             }
 
             await _next(httpContext);
-        }
+        }        
     }
 
     public class ProtectFolderOptions
     {
         public PathString Path { get; set; }
-        public string PolicyName { get; set; }
+        public string RoleName { get; set; }
     }
 
     public static class ProtectFolderExtensions
@@ -51,4 +53,6 @@ namespace WeebDoCMF.WDCore.Middleware
             return builder.UseMiddleware<ProtectFolderMiddleware>(options);
         }
     }
+
+   
 }
