@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Entity;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -28,9 +29,24 @@ namespace WeebDoCMF.WDCore.Models.Translations
                 }
                 return tResource.Value;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return name;
+            }
+        }
+        public IList<TCulture> GetCulturesAll()
+        {
+            return _dbContext.TCultures.Distinct().ToList();
+        }
+
+        public string GetCultureByCode(string name)
+        {
+            try {
+                var culture = _dbContext.TCultures.SingleOrDefault(c => c.CultureCode == name);
+                return culture.CultureCode;
+            } catch(Exception)
+            {
+                return null;
             }
         }
     }

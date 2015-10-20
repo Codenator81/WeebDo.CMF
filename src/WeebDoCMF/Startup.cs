@@ -2,7 +2,6 @@
 using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Localization;
-using Microsoft.AspNet.Routing;
 using Microsoft.Data.Entity;
 using Microsoft.Dnx.Runtime;
 using Microsoft.Dnx.Runtime.Infrastructure;
@@ -15,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
-using WeebDoCMF.WDCore.Middleware;
+using WeebDoCMF.WDCore.Middlewares;
 using WeebDoCMF.WDCore.Models;
 using WeebDoCMF.WDCore.Models.Translations;
 using WeebDoCMF.WDCore.Translation;
@@ -172,35 +171,20 @@ namespace WeebDoCMF
 
             var options = new RequestLocalizationOptions
             {
-                DefaultRequestCulture = new RequestCulture(new CultureInfo("en-US")),
+                DefaultRequestCulture = new RequestCulture(new CultureInfo("en")),
                 SupportedCultures = new List<CultureInfo>
                 {
-                    new CultureInfo("en-US"),
-                    new CultureInfo("ru-RU")
+                    new CultureInfo("en"),
+                    new CultureInfo("ru")
                 },
                 SupportedUICultures = new List<CultureInfo>
                 {
-                    new CultureInfo("en-US"),
-                    new CultureInfo("ru-RU")
+                    new CultureInfo("en"),
+                    new CultureInfo("ru")
                 }
 
             };
-            options.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async context =>
-            {
-                var segments = context.Request.Path.Value.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                if (segments.Length >= 1 && (segments[0].Length == 5 || segments[0].Length == 2))
-                {
-                    var cultures = options.SupportedCultures;
-                    var pathCulture = new CultureInfo(segments[0]);
-                    if (cultures.Contains(pathCulture))
-                    {
-                        var requestCulture = new RequestCulture(pathCulture);
-                        return await Task.FromResult(requestCulture);
-                    }                    
-                }
-                return null;
-            }));
-
+            
             app.UseRequestLocalization(options);
             // Configure Session.
             app.UseProtectFolder(new ProtectFolderOptions
@@ -221,11 +205,11 @@ namespace WeebDoCMF
                     defaults: new { controller = "Admin", action = "Index" });
                 routes.MapRoute(
                     name: "transRoute",
-                    template: "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");                    
+                    template: "{controller=Home}/{culture}/{action=Index}/{id?}");                    
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-        });
+            });
 
             // Initialize the sample data
             //Uncomment on first run after do all migrations

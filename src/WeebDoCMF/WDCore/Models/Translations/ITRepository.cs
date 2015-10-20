@@ -17,5 +17,12 @@ namespace WeebDoCMF.WDCore.Models.Translations
         /// translation string or name
         /// </returns>
         string GetResource(string name);
+
+        /// <summary>
+        /// Return CultureCode from DB if exist or null
+        /// </summary>
+        /// <param name="name">Culture code</param>
+        /// <returns></returns>
+        string GetCultureByCode(string name);
     }
 }
