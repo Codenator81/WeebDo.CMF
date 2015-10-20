@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Localization;
+using Microsoft.AspNet.Routing;
 using Microsoft.Data.Entity;
 using Microsoft.Dnx.Runtime;
 using Microsoft.Dnx.Runtime.Infrastructure;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -28,14 +30,14 @@ namespace WeebDoCMF
                 .SetBasePath(env.ApplicationBasePath)
                 .AddJsonFile("Settings/config.json")
                 .AddEnvironmentVariables();
-                Configuration = builder.Build();
+            Configuration = builder.Build();
         }
         public IConfiguration Configuration { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            
+
             /// Database setting
             /// at this moment have 3 variant 
             /// Postgres(currently not work on core 5)
@@ -43,20 +45,20 @@ namespace WeebDoCMF
             /// SqlServer
             switch (Configuration["Data:DbName"])
             {
-/*
-                case "Postgres":
-                    var host = Configuration["Data:dbPostgres:Host"];
-                    var username = Configuration["Data:dbPostgres:Username"];
-                    var password = Configuration["Data:dbPostgres:Password"];
-                    var database = Configuration["Data:dbPostgres:Database"];
-                    var connectPostgres = host + username + password + database;
-                   
-                    services.AddEntityFramework()
-                       .AddNpgsql()
-                       .AddDbContext<MainDbContext>(options =>
-                           options.UseNpgsql(connectPostgres));
-                    break;
-*/
+                /*
+                                case "Postgres":
+                                    var host = Configuration["Data:dbPostgres:Host"];
+                                    var username = Configuration["Data:dbPostgres:Username"];
+                                    var password = Configuration["Data:dbPostgres:Password"];
+                                    var database = Configuration["Data:dbPostgres:Database"];
+                                    var connectPostgres = host + username + password + database;
+
+                                    services.AddEntityFramework()
+                                       .AddNpgsql()
+                                       .AddDbContext<MainDbContext>(options =>
+                                           options.UseNpgsql(connectPostgres));
+                                    break;
+                */
                 case "Sqlite":
                     var appEnv = CallContextServiceLocator.Locator.ServiceProvider
                             .GetRequiredService<IApplicationEnvironment>();
@@ -71,7 +73,7 @@ namespace WeebDoCMF
                         .AddSqlServer()
                         .AddDbContext<MainDbContext>(options =>
                             options.UseSqlServer(Configuration["dbSqlServer:ConnectionString"]));
-                    break;                    
+                    break;
             }
 
             // Add Identity services to the services container.
@@ -114,7 +116,8 @@ namespace WeebDoCMF
             {
                 options.AddPolicy(
                     "ManageAdminPanel",
-                    authBuilder => {
+                    authBuilder =>
+                    {
                         authBuilder.RequireClaim("ManageAdminPanel", "Allowed");
                     });
             });
@@ -169,6 +172,7 @@ namespace WeebDoCMF
 
             var options = new RequestLocalizationOptions
             {
+                DefaultRequestCulture = new RequestCulture(new CultureInfo("en-US")),
                 SupportedCultures = new List<CultureInfo>
                 {
                     new CultureInfo("en-US"),
@@ -179,14 +183,23 @@ namespace WeebDoCMF
                     new CultureInfo("en-US"),
                     new CultureInfo("ru-RU")
                 }
-                
+
             };
-            //options.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async context =>
-            //{
-            //    var culture = GetCultureInfoFromUrl(context);
-            //    var requestCulture = new RequestCulture(culture);
-            //    return await Task.FromResult(requestCulture);
-            //}));
+            options.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async context =>
+            {
+                var segments = context.Request.Path.Value.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                if (segments.Length >= 1 && (segments[0].Length == 5 || segments[0].Length == 2))
+                {
+                    var cultures = options.SupportedCultures;
+                    var pathCulture = new CultureInfo(segments[0]);
+                    if (cultures.Contains(pathCulture))
+                    {
+                        var requestCulture = new RequestCulture(pathCulture);
+                        return await Task.FromResult(requestCulture);
+                    }                    
+                }
+                return null;
+            }));
 
             app.UseRequestLocalization(options);
             // Configure Session.
@@ -205,16 +218,18 @@ namespace WeebDoCMF
                 routes.MapRoute(
                     name: "areaRoute",
                     template: "{area:exists}/{controller}/{action}/{id?}",
-                    defaults: new { controller= "Admin", action = "Index" });
-
-            routes.MapRoute(
+                    defaults: new { controller = "Admin", action = "Index" });
+                routes.MapRoute(
+                    name: "transRoute",
+                    template: "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");                    
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-            });
+        });
 
             // Initialize the sample data
             //Uncomment on first run after do all migrations
             //SampleData.InitializeWeebDoCMFDatabaseAsync(app.ApplicationServices).Wait();
         }
-    }
+}
 }

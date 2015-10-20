@@ -1,4 +1,4 @@
-﻿{
+{
   "webroot": "wwwroot",
   "version": "0.0.1-unstable-1",
   "authors": [ "Codenator81" ],
@@ -27,7 +27,8 @@
   "commands": {
     "kestrel": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.Kestrel --server.urls http://localhost:5004",
     "ef": "EntityFramework.Commands",
-    "gen": "Microsoft.Extensions.CodeGeneration"
+    "gen": "Microsoft.Extensions.CodeGeneration",
+    "web": "Microsoft.AspNet.Server.Kestrel"
   },
 
   "frameworks": {

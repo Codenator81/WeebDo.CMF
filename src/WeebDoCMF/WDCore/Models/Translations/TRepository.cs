@@ -17,14 +17,21 @@ namespace WeebDoCMF.WDCore.Models.Translations
         public string GetResource(string name)
         {
             var currentCulture = CultureInfo.CurrentUICulture.Name;
-            var tResource = _dbContext.TResources
-                .Include(c => c.Culture)
-                .SingleOrDefault(r => r.Name == name && r.Culture.CultureCode == currentCulture);
-            if (tResource == null)
+            try
+            {
+                var tResource = _dbContext.TResources
+                    .Include(c => c.Culture)
+                    .SingleOrDefault(r => r.Name == name && r.Culture.CultureCode == currentCulture);
+                if (tResource == null)
+                {
+                    return name;
+                }
+                return tResource.Value;
+            }
+            catch (Exception e)
             {
                 return name;
             }
-            return tResource.Value;
         }
     }
 }

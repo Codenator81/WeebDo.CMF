@@ -12,8 +12,11 @@ than CMF
 ##Change record:
 ####18-oct-15  
 Add translation and localization from DB implemented from ASP.NET 5 Localization
+####20-oct-15 
+Add localisation from URL. 
+Supported formats /xx/ and /xx-XX/
  
-Current DNX: dnx-clr-win-x64.1.0.0-rc1-15910
+Current DNX: dnx-clr-win-x64.1.0.0-rc1-15921
 
 ###Open Sorce used:
 Admin panel based on [AdminLTE](https://github.com/almasaeed2010/AdminLTE)
