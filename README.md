@@ -10,11 +10,14 @@ Currently it is more personal wireframe for fast start project with admin panel 
 than CMF
 
 ##Change record:
-####18-oct-15  
-Add translation and localization from DB implemented from ASP.NET 5 Localization
+####21-oct-15 
+Add localization from Template segment "culture". 
 ####20-oct-15 
 Add localisation from URL. 
 Supported formats /xx/ and /xx-XX/
+####18-oct-15  
+Add translation and localization from DB implemented from ASP.NET 5 Localization
+
  
 Current DNX: dnx-clr-win-x64.1.0.0-rc1-15921
 
