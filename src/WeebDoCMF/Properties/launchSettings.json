@@ -9,7 +9,7 @@
     },
     "kestrel": {
       "commandName": "kestrel",
-      "sdkVersion": "dnx-coreclr-win-x64.1.0.0-rc1-15910"
+      "sdkVersion": "dnx-coreclr-win-x64.1.0.0-rc1-15921"
     },
     "web": {
       "commandName": "web",

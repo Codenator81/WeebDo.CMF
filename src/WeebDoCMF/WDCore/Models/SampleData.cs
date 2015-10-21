@@ -14,33 +14,33 @@ namespace WeebDoCMF.WDCore.Models
     public class SampleData
     {
         public static async Task InitializeWeebDoCMFDatabaseAsync(IServiceProvider serviceProvider)
-        {            
+        {
             await CreateAdminUser(serviceProvider);
-            await InsertCultureData(serviceProvider);           
+            await InsertCultureData(serviceProvider);
         }
         private static async Task InsertCultureData(IServiceProvider serviceProvider)
         {
             var context = serviceProvider.GetService<MainDbContext>();
             if (!context.TCultures.Any())
             {
-                var englishCulture = context.TCultures.Add(
-                     new TCulture { CultureCode = "en-US" }).Entity;
-                var russianCulture = context.TCultures.Add(
-                    new TCulture { CultureCode = "ru-RU" }).Entity;
+                var englishTwoLetterCulture = context.TCultures.Add(
+                     new TCulture { CultureCode = "en" }).Entity;
+                var russianTwoLetterCulture = context.TCultures.Add(
+                    new TCulture { CultureCode = "ru" }).Entity;
 
                 context.TResources.AddRange(
-                    new TResource()
-                    {
-                        Name = "language",
-                        Value = "Язык",
-                        Culture = russianCulture
-                    },
+                      new TResource()
+                      {
+                          Name = "language",
+                          Value = "Язык",
+                          Culture = russianTwoLetterCulture
+                      },
                      new TResource()
                      {
                          Name = "language",
                          Value = "Language",
-                         Culture = englishCulture
-                     }                     
+                         Culture = englishTwoLetterCulture
+                     }
                 );
                 await context.SaveChangesAsync();
             }

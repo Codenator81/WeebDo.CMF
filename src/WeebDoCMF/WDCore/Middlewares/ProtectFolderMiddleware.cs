@@ -3,7 +3,7 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Http;
 using System.Threading.Tasks;
 
-namespace WeebDoCMF.WDCore.Middleware
+namespace WeebDoCMF.WDCore.Middlewares
 {
     public class ProtectFolderMiddleware
     {
