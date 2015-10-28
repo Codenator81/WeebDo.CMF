@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Mvc;
-using WeebDoCMF.WDCore.Models.Translations;
+﻿using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Localization;
-using WeebDoCMF.WDCore.Controllers;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+using WeebDoCMF.WDCore.Attributes;
 
 namespace WeebDoCMF.Controllers
 {
-    public class HomeController : WDTranslationController
+    [TranslationSegment]
+    public class HomeController : Controller
     {
-        public HomeController(IHtmlLocalizer<WDTranslationController> localizer) :base(localizer) { }
+        IHtmlLocalizer<HomeController> SR;
+        public HomeController(IHtmlLocalizer<HomeController> localizer) {
+            SR = localizer;
+        }
         // GET: /<controller>/
         public IActionResult Index()
         {

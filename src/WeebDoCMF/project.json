@@ -1,4 +1,5 @@
 {
+  "webroot": "wwwroot",
   "version": "0.0.1-unstable-1",
   "authors": [ "Codenator81" ],
   "title": "WeebDo CMF",

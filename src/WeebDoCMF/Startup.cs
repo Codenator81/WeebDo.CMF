@@ -158,7 +158,7 @@ namespace WeebDoCMF
 
         public void Configure(IApplicationBuilder app)
         {
-            //app.UseIISPlatformHandler();
+            app.UseIISPlatformHandler();
             // Configure Session.
             app.UseSession();
 
