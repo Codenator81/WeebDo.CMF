@@ -1,19 +1,15 @@
 ﻿using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Localization;
 using Microsoft.Data.Entity;
-using Microsoft.Dnx.Runtime;
-using Microsoft.Dnx.Runtime.Infrastructure;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Threading.Tasks;
 using WeebDoCMF.WDCore.Middlewares;
 using WeebDoCMF.WDCore.Models;
 using WeebDoCMF.WDCore.Models.Translations;
@@ -26,7 +22,6 @@ namespace WeebDoCMF
         public Startup(IApplicationEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ApplicationBasePath)
                 .AddJsonFile("Settings/config.json")
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -45,18 +40,18 @@ namespace WeebDoCMF
             switch (Configuration["Data:DbName"])
             {
                 /*
-                                case "Postgres":
-                                    var host = Configuration["Data:dbPostgres:Host"];
-                                    var username = Configuration["Data:dbPostgres:Username"];
-                                    var password = Configuration["Data:dbPostgres:Password"];
-                                    var database = Configuration["Data:dbPostgres:Database"];
-                                    var connectPostgres = host + username + password + database;
+                case "Postgres":
+                    var host = Configuration["Data:dbPostgres:Host"];
+                    var username = Configuration["Data:dbPostgres:Username"];
+                    var password = Configuration["Data:dbPostgres:Password"];
+                    var database = Configuration["Data:dbPostgres:Database"];
+                    var connectPostgres = host + username + password + database;
 
-                                    services.AddEntityFramework()
-                                       .AddNpgsql()
-                                       .AddDbContext<MainDbContext>(options =>
-                                           options.UseNpgsql(connectPostgres));
-                                    break;
+                    services.AddEntityFramework()
+                        .AddNpgsql()
+                        .AddDbContext<MainDbContext>(options =>
+                            options.UseNpgsql(connectPostgres));
+                    break;
                 */
                 case "Sqlite":
                     var appEnv = CallContextServiceLocator.Locator.ServiceProvider
@@ -71,7 +66,7 @@ namespace WeebDoCMF
                     services.AddEntityFramework()
                         .AddSqlServer()
                         .AddDbContext<MainDbContext>(options =>
-                            options.UseSqlServer(Configuration["dbSqlServer:ConnectionString"]));
+                            options.UseSqlServer(Configuration["Data:dbSqlServer:ConnectionString"]));
                     break;
             }
 
@@ -136,7 +131,7 @@ namespace WeebDoCMF
             // During development use the ErrorPage middleware to display error information in the browser
             app.UseDeveloperExceptionPage();
 
-            app.UseDatabaseErrorPage(DatabaseErrorPageOptions.ShowAll);
+            app.UseDatabaseErrorPage();
 
             // Add the runtime information page that can be used by developers
             // to see what packages are used by the application
@@ -163,6 +158,7 @@ namespace WeebDoCMF
 
         public void Configure(IApplicationBuilder app)
         {
+            //app.UseIISPlatformHandler();
             // Configure Session.
             app.UseSession();
 
@@ -171,7 +167,6 @@ namespace WeebDoCMF
 
             var options = new RequestLocalizationOptions
             {
-                DefaultRequestCulture = new RequestCulture(new CultureInfo("en")),
                 SupportedCultures = new List<CultureInfo>
                 {
                     new CultureInfo("en"),
@@ -184,8 +179,8 @@ namespace WeebDoCMF
                 }
 
             };
-            
-            app.UseRequestLocalization(options);
+
+            app.UseRequestLocalization(options, defaultRequestCulture: new RequestCulture("en"));
             // Configure Session.
             app.UseProtectFolder(new ProtectFolderOptions
             {
@@ -205,15 +200,15 @@ namespace WeebDoCMF
                     defaults: new { controller = "Admin", action = "Index" });
                 routes.MapRoute(
                     name: "transRoute",
-                    template: "{controller=Home}/{culture}/{action=Index}/{id?}");                    
+                    template: "{culture}/{controller=Home}/{action=Index}/{id?}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
             // Initialize the sample data
-            //Uncomment on first run after do all migrations
-            //SampleData.InitializeWeebDoCMFDatabaseAsync(app.ApplicationServices).Wait();
+            //Comment on production app after first run for performance 
+            SeedData.InitializeWeebDoCMFDatabaseAsync(app.ApplicationServices).Wait();
         }
-}
+    }
 }

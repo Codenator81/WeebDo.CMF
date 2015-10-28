@@ -10,6 +10,8 @@ Currently it is more personal wireframe for fast start project with admin panel 
 than CMF
 
 ##Change record:
+####28-oct-15
+Moved to CoreClr only
 ####21-oct-15 
 Add localization from Template segment "culture". 
 ####20-oct-15 
@@ -19,7 +21,7 @@ Supported formats /xx/ and /xx-XX/
 Add translation and localization from DB implemented from ASP.NET 5 Localization
 
  
-Current DNX: dnx-clr-win-x64.1.0.0-rc1-15921
+Current DNX: 1.0.0-rc1-16048  Type:CoreClr
 
 ###Open Sorce used:
 Admin panel based on [AdminLTE](https://github.com/almasaeed2010/AdminLTE)
