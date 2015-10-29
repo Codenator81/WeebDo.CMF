@@ -1,7 +1,7 @@
 ﻿{
   "Data": {
     //DbName currently have three parameters Postgres, Sqlite or  SqlServer (if DbName empty default connection)
-    "DbName": "SqlServer",
+    "DbName": "Sqlite",
     "dbPostgres": {
       "Host": "localhost",
       "Username": "postgres",

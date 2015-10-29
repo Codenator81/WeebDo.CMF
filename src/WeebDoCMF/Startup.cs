@@ -13,7 +13,7 @@ using System.Globalization;
 using WeebDoCMF.WDCore.Middlewares;
 using WeebDoCMF.WDCore.Models;
 using WeebDoCMF.WDCore.Models.Translations;
-using WeebDoCMF.WDCore.Translation;
+using WeebDoCMF.WDCore.Translations;
 
 namespace WeebDoCMF
 {

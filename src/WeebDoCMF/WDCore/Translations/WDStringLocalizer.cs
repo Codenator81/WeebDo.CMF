@@ -2,10 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Threading.Tasks;
 using WeebDoCMF.WDCore.Models.Translations;
 
-namespace WeebDoCMF.WDCore.Translation
+namespace WeebDoCMF.WDCore.Translations
 {
     public class WDStringLocalizer : IStringLocalizer
     {

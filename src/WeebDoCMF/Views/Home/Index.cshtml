@@ -1,4 +1,4 @@
-﻿@inject IViewLocalizer SR
+﻿@inject IViewLocalizer T
 @{
     ViewBag.Title = "Home Page";
 }
@@ -6,7 +6,7 @@
 <h1>Home page</h1>
 
 <h2>Translation: @ViewBag.Trans</h2>
-<h2>Injected translation: @SR["language"]</h2>
+<h2>Injected translation: @T["language"]</h2>
 
 <div>
     <h3 onclick='useCookie("en");'>on click set en</h3>

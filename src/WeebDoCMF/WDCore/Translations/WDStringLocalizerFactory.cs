@@ -3,7 +3,7 @@ using System;
 using WeebDoCMF.WDCore.Models;
 using WeebDoCMF.WDCore.Models.Translations;
 
-namespace WeebDoCMF.WDCore.Translation
+namespace WeebDoCMF.WDCore.Translations
 {
     public class WDStringLocalizerFactory : IStringLocalizerFactory
     {
