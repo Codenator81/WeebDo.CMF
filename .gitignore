@@ -32,3 +32,5 @@ node_modules/
 */*.Spa/wwwroot/lib
 bowerlib
 /src/WeebDoCMF/Database/*.db
+/src/WeebDoCMF/.vscode
+/src/WeebDoCMF/Migrations
