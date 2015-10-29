@@ -31,3 +31,4 @@ node_modules/
 */*.Spa/public/*
 */*.Spa/wwwroot/lib
 bowerlib
+/src/WeebDoCMF/Database/*.db

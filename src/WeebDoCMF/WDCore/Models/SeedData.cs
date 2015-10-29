@@ -11,12 +11,16 @@ using WeebDoCMF.WDCore.Models.Translations;
 
 namespace WeebDoCMF.WDCore.Models
 {
-    public class SampleData
+    public class SeedData
     {
         public static async Task InitializeWeebDoCMFDatabaseAsync(IServiceProvider serviceProvider)
         {
-            await CreateAdminUser(serviceProvider);
-            await InsertCultureData(serviceProvider);
+            var context = serviceProvider.GetService<MainDbContext>();
+            if (!context.TCultures.Any())
+            {
+                await CreateAdminUser(serviceProvider);
+                await InsertCultureData(serviceProvider);
+            }
         }
         private static async Task InsertCultureData(IServiceProvider serviceProvider)
         {
@@ -24,9 +28,9 @@ namespace WeebDoCMF.WDCore.Models
             if (!context.TCultures.Any())
             {
                 var englishTwoLetterCulture = context.TCultures.Add(
-                     new TCulture { CultureCode = "en" }).Entity;
+                     new TCulture { CultureCode = "en", Name = "English" }).Entity;
                 var russianTwoLetterCulture = context.TCultures.Add(
-                    new TCulture { CultureCode = "ru" }).Entity;
+                    new TCulture { CultureCode = "ru", Name = "Русский" }).Entity;
 
                 context.TResources.AddRange(
                       new TResource()

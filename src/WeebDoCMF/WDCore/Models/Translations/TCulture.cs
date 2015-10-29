@@ -12,6 +12,7 @@ namespace WeebDoCMF.WDCore.Models.Translations
 
         [Required]
         public string CultureCode { get; set; }
+        public string Name { get; set; }
 
         public List<TResource> Resources { get; set; }
     }

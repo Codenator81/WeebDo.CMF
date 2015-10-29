@@ -1,7 +1,7 @@
 ﻿{
   "Data": {
     //DbName currently have three parameters Postgres, Sqlite or  SqlServer (if DbName empty default connection)
-    "DbName": "Sqlite",
+    "DbName": "SqlServer",
     "dbPostgres": {
       "Host": "localhost",
       "Username": "postgres",
@@ -12,7 +12,7 @@
       "Path": "/Database/WeebDoCMSDb.db"
     },
     "dbSqlServer": {
-      "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=WeebDoCMS-a1c21b0a-21de-4435-9306-6d1b835567cd;Trusted_Connection=True;MultipleActiveResultSets=true"
+      "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=WeebDoCMF;Trusted_Connection=True;MultipleActiveResultSets=true"
     }
   },
   "env": "dev",
