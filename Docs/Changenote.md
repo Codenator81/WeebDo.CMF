@@ -1,3 +1,9 @@
+####30-oct-15
+Add console command to feed data:
+```console
+dnx lessy db:seed
+```
+for now it seed base cultures (en, ru) and translation for string(language)
 ####29-oct-15
 Use  [TranslationSegment]  attribute in controller for Translations
 ####28-oct-15

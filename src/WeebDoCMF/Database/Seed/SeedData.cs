@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Data.Entity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.OptionsModel;
 using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WeebDoCMF.WDCore.Models;
 using WeebDoCMF.WDCore.Models.Translations;
 
-namespace WeebDoCMF.WDCore.Models
+namespace WeebDoCMF.Database
 {
     public class SeedData
     {

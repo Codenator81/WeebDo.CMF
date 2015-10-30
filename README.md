@@ -15,7 +15,7 @@ than CMF
 ####Change record: [changerecord](https://github.com/WeebDo/WeebDo.CMF/blob/master/Docs/Changenote.md)
 
  
-Current DNX: 1.0.0-rc1-16064  
+Current DNX: 1.0.0-rc1-16071  
 Type:CoreClr
 
 ###Open Sorce used:

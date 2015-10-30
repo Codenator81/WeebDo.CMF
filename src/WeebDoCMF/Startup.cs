@@ -14,6 +14,7 @@ using WeebDoCMF.WDCore.Middlewares;
 using WeebDoCMF.WDCore.Models;
 using WeebDoCMF.WDCore.Models.Translations;
 using WeebDoCMF.WDCore.Translations;
+using WeebDoCMF.Database;
 
 namespace WeebDoCMF
 {
