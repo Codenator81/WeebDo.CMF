@@ -1,20 +1,19 @@
-﻿using Microsoft.Data.Entity;
-using Microsoft.Dnx.Runtime.Common.CommandLine;
+﻿
+using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using System;
-using WeebDoCMF.Database.Seed;
 using WeebDoCMF.WDCore.Models;
 
-namespace WeebDoCMF.Commands.Lessy
+namespace WeebDoCMF.WDCore.Data.Seed
 {
-    public class Program
+    public class SeedFactory : ISeedFactory
     {
         public IConfiguration Configuration { get; set; }
         private readonly IServiceProvider _serviceProvider;
 
-        public Program()
+        public SeedFactory()
         {
             //initialize configuration
             var builder = new ConfigurationBuilder()
@@ -61,45 +60,8 @@ namespace WeebDoCMF.Commands.Lessy
                             options.UseSqlServer(Configuration["Data:dbSqlServer:ConnectionString"]));
                     break;
             }
-        }
 
 
-        public int Main(string[] args)
-        {
-            var app = new CommandLineApplication
-            {
-                Name = "dnx lessy",
-                Description = "Your patner in web building",
-                FullName = "Lessy - Less code more Fun"
-            };
-            app.VersionOption(
-                "--version",
-                Configuration["version"]);
-            app.HelpOption("-?|-h|--help");
-            app.Command("db:seed", c =>
-            {
-                c.Description = "Seed data to DB.";
-                c.HelpOption("-?|-h|--help");
-                c.OnExecute(() =>
-                {
-                    Console.WriteLine("Seeding data");
-                    var res = SeedLanguages.AddData(_serviceProvider);       
-                    if (res) {         
-                        Console.WriteLine("Data saved");
-                    } else
-                    {
-                        Console.WriteLine("Data already exist");
-                    }                   
-                    return 0;
-                });
-            });
-            app.OnExecute(() =>
-            {
-                app.ShowHelp();
-                return 2;
-            });
-
-            return app.Execute(args);
         }
     }
 }

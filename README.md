@@ -1,5 +1,5 @@
 ## CMF based on ASP.NET 5 MVC 6
-This framework primary target Linux and Mac but work on windows as well.
+This framework primary target Linux and Mac (CoreClr) but work on windows as well.
 Tested on vps and works great.
 
 
@@ -15,11 +15,8 @@ than CMF
 ####Change record: [changerecord](https://github.com/WeebDo/WeebDo.CMF/blob/master/Docs/Changenote.md)
 
  
-Current DNX: 1.0.0-rc1-16071  
+Current DNX: 1.0.0-rc1-16109  
 Type:CoreClr
-
-###Open Sorce used:
-Admin panel based on [AdminLTE](https://github.com/almasaeed2010/AdminLTE)
 
 ####Contribute:
 If you like say thank you just give star.

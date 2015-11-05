@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Faker.CoreClr;
+using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Localization;
 using WeebDoCMF.WDCore.Attributes;
 
@@ -14,6 +15,8 @@ namespace WeebDoCMF.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
+            //test Faker CoreClr
+            ViewBag.Name = Person.GetName();
             ViewBag.Trans = SR["language"];            
             return View();
         }
